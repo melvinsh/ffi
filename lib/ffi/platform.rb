@@ -71,6 +71,14 @@ module FFI
       "powerpc"
     when /sparcv9|sparc64/
       "sparcv9"
+    when /arm64|aarch64/  # MacOS calls it "arm64", other operating systems "aarch64"
+      "aarch64"
+    when /^arm/
+      if OS == "darwin"   # Ruby before 3.0 reports "arm" instead of "arm64" as host_cpu on darwin
+        "aarch64"
+      else
+        "arm"
+      end
     else
       case RbConfig::CONFIG['host_cpu']
       when /^arm/
